@@ -1,0 +1,66 @@
+{
+    "name": "x-editor-react",
+    "version": "0.0.1",
+    "type": "module",
+    "files": [
+        "dist"
+    ],
+    "main": "dist/lib/index.js",
+    "module": "dist/es/index.js",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "dev": "vite",
+        "build": "fast-bundle clean && node scripts/build.js",
+        "build-site": "tsc && vite build",
+        "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --fix",
+        "prepare": "husky install",
+        "preview": "vite preview",
+        "preinstall": "npx only-allow pnpm"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/TonyL1u/x-editor-react"
+    },
+    "author": "TonyL1u",
+    "license": "MIT",
+    "dependencies": {
+        "@babel/parser": "^7.23.0",
+        "@monaco-editor/react": "^4.6.0",
+        "lodash-es": "^4.17.21",
+        "magic-string": "^0.30.5",
+        "monaco-editor": "^0.44.0",
+        "styled-components": "^6.1.0",
+        "theme-vitesse": "^0.7.3"
+    },
+    "devDependencies": {
+        "@babel/preset-env": "^7.23.2",
+        "@commitlint/cli": "^17.6.7",
+        "@commitlint/config-conventional": "^17.6.7",
+        "@types/lodash-es": "^4.17.10",
+        "@types/node": "^20.8.8",
+        "@types/react": "^18.2.15",
+        "@types/react-dom": "^18.2.7",
+        "@typescript-eslint/eslint-plugin": "^6.0.0",
+        "@typescript-eslint/parser": "^6.0.0",
+        "@vitejs/plugin-react-swc": "^3.3.2",
+        "autoprefixer": "^10.4.16",
+        "classnames": "^2.3.2",
+        "eslint": "^8.45.0",
+        "eslint-config-prettier": "^9.0.0",
+        "eslint-plugin-prettier": "^5.0.1",
+        "eslint-plugin-react": "^7.33.2",
+        "eslint-plugin-react-hooks": "^4.6.0",
+        "eslint-plugin-react-refresh": "^0.4.3",
+        "eslint-plugin-simple-import-sort": "^10.0.0",
+        "fast-bundle": "^0.0.2",
+        "husky": "^8.0.0",
+        "postcss": "^8.4.31",
+        "prettier-plugin-tailwindcss": "^0.5.6",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "sass": "^1.69.4",
+        "tailwindcss": "^3.3.3",
+        "typescript": "^5.0.2",
+        "vite": "^4.5.0"
+    }
+}
