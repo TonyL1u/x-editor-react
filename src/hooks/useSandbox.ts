@@ -74,8 +74,8 @@ export function useSandbox(config: SandboxConfig = {}): UseSandboxReturn {
             /<!--IMPORT_MAP-->/,
             JSON.stringify({
                 imports: {
-                    react: '/proxy/react-dev-proxy.ts',
-                    'react-dom/client': '/proxy/react-dom_client-dev-proxy.ts',
+                    react: '../../proxy/react-dev-proxy.ts',
+                    'react-dom/client': '../../proxy/react-dom_client-dev-proxy.ts',
                     ...imports
                 }
             })

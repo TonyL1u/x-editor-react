@@ -7,7 +7,7 @@ export default defineConfig({
     plugins: [react()],
     resolve: {
         alias: {
-            'x-editor-react': resolve(__dirname, 'src')
+            'x-editor-react': resolve(__dirname, 'dist/es/index.js')
         }
     }
 });
