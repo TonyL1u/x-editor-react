@@ -1,5 +1,8 @@
-export { IconBan } from './IconBan';
-export { IconCodeSlash } from './IconCodeSlash';
-export { IconPlay } from './IconPlay';
-export { IconRefresh } from './IconRefresh';
-export { IconTerminal } from './IconTerminal';
+export * from './IconBan';
+export * from './IconCheck';
+export * from './IconCodeSlash';
+export * from './IconCopy';
+export * from './IconFullscreen';
+export * from './IconPlay';
+export * from './IconRefresh';
+export * from './IconTerminal';

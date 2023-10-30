@@ -5,9 +5,12 @@ import { defineConfig } from 'vite';
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [react()],
+    build: {
+        outDir: 'docs'
+    },
     resolve: {
         alias: {
-            'x-editor-react': resolve(__dirname, 'dist/es/index.js')
+            'x-editor-react': resolve(__dirname, 'src')
         }
     }
 });

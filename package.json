@@ -1,6 +1,6 @@
 {
     "name": "x-editor-react",
-    "version": "0.0.1",
+    "version": "0.0.6",
     "type": "module",
     "files": [
         "dist"
@@ -10,8 +10,8 @@
     "types": "dist/index.d.ts",
     "scripts": {
         "dev": "vite",
-        "build": "fast-bundle clean && node scripts/build.js && cp -r proxy dist/proxy",
-        "build-site": "tsc && vite build",
+        "build:pkg": "fast-bundle clean && node scripts/build.js && cp -r proxy dist/proxy",
+        "build:site": "tsc && vite build",
         "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --fix",
         "prepare": "husky install",
         "preview": "vite preview",
@@ -29,6 +29,7 @@
         "lodash-es": "^4.17.21",
         "magic-string": "^0.30.5",
         "monaco-editor": "^0.44.0",
+        "react-transition-group": "^4.4.5",
         "styled-components": "^6.1.0",
         "theme-vitesse": "^0.7.3"
     },
@@ -40,6 +41,7 @@
         "@types/node": "^20.8.8",
         "@types/react": "^18.2.15",
         "@types/react-dom": "^18.2.7",
+        "@types/react-transition-group": "^4.4.8",
         "@typescript-eslint/eslint-plugin": "^6.0.0",
         "@typescript-eslint/parser": "^6.0.0",
         "@vitejs/plugin-react-swc": "^3.3.2",

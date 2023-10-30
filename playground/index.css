@@ -16,3 +16,9 @@
     -moz-osx-font-smoothing: grayscale;
     -webkit-text-size-adjust: 100%;
 }
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+}

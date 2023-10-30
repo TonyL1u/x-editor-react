@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from 'react';
 import { memo, useRef, useState } from 'react';
 
-import { useOnMounted, useSandbox, useThrottleFn } from '../../hooks';
+import { useLatest, useOnMounted, useSandbox, useThrottleFn } from '../../hooks';
 import { initMonacoEnv } from '../../logic/initMonacoEnv';
 import { parseSource } from '../../logic/parseSource';
 import type { MonacoStandaloneCodeEditor, RuntimeError, RuntimeLog, SandboxError } from '../../shared/types';
@@ -10,13 +10,14 @@ import srcdoc from './srcdoc.html?raw';
 
 initMonacoEnv();
 
-interface XEditorProviderProps {
+export interface XEditorProviderProps {
     imports?: Record<string, string>;
     code?: string;
 }
 
 function EditorProvider(props: PropsWithChildren<XEditorProviderProps>) {
     const { imports = {}, code = '', children } = props;
+    const codeRef = useLatest(code);
     const [runtimeError, setRuntimeError] = useState<RuntimeError>({ message: '', error: null });
     const [runtimeLogs, setRuntimeLogs] = useState<RuntimeLog[]>([]);
     const [compliedCode, setCompliedCode] = useState('');
@@ -91,7 +92,7 @@ function EditorProvider(props: PropsWithChildren<XEditorProviderProps>) {
     return (
         <Context.Provider
             value={{
-                code,
+                code: codeRef.current,
                 compliedCode,
                 runtimeError,
                 runtimeLogs,

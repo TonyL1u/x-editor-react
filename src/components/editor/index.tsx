@@ -1,13 +1,15 @@
-import { type EditorProps } from '@monaco-editor/react';
-import MonacoEditor, { Monaco } from '@monaco-editor/react';
+import type { EditorProps as MonacoEditorProps, Monaco } from '@monaco-editor/react';
+import MonacoEditor from '@monaco-editor/react';
 import * as monaco from 'monaco-editor';
 import { memo, useCallback, useEffect, useRef } from 'react';
 
-import { type MonacoStandaloneCodeEditor } from '../../shared/types';
+import { useLatest } from '../../hooks';
+import type { ComponentBaseProps, MonacoStandaloneCodeEditor } from '../../shared/types';
+import { ensureCssUnit } from '../../shared/utils';
 import { useInternalContext } from '../provider/context';
 import { EditorContainer } from './widgets';
 
-const BASE_MONACO_OPTIONS: monaco.editor.IStandaloneEditorConstructionOptions = {
+const MONACO_BASE_OPTIONS: monaco.editor.IStandaloneEditorConstructionOptions = {
     fontSize: 14,
     lineHeight: 24,
     padding: {
@@ -35,8 +37,13 @@ const BASE_MONACO_OPTIONS: monaco.editor.IStandaloneEditorConstructionOptions = 
     renderLineHighlightOnlyWhenFocus: true
 };
 
+export interface EditorProps extends MonacoEditorProps, ComponentBaseProps {
+    borderless?: boolean;
+}
+
 function Editor(props: EditorProps) {
-    const { value = '', options = {}, defaultLanguage = 'typescript', path = 'file:///index.tsx', theme = 'vitesse-light', onMount, onChange, ...rest } = props;
+    const { value = '', options = {}, defaultLanguage = 'typescript', path = 'file:///index.tsx', theme = 'vitesse-light', onMount, onChange, borderless = false, className, style, width, height, ...rest } = props;
+    const valueRef = useLatest(value);
     const { code, runCode, runtimeError, editorInstance } = useInternalContext();
     const errorDecorator = useRef<string[]>();
     const setErrorLine = useCallback(
@@ -81,8 +88,19 @@ function Editor(props: EditorProps) {
     }, [runtimeError, setErrorLine]);
 
     return (
-        <EditorContainer>
-            <MonacoEditor value={value || code} options={{ ...BASE_MONACO_OPTIONS, ...options }} defaultLanguage={defaultLanguage} path={path} theme={theme} {...rest} onMount={handleEditorDidMount} onChange={handleEditorContentChange} />
+        <EditorContainer className={className} style={style} $borderless={borderless} $width={ensureCssUnit(width || '', 'px')} $height={ensureCssUnit(height || '', 'px')}>
+            <MonacoEditor
+                value={valueRef.current || code}
+                options={{ ...MONACO_BASE_OPTIONS, ...options }}
+                defaultLanguage={defaultLanguage}
+                path={path}
+                theme={theme}
+                width="100%"
+                height="100%"
+                {...rest}
+                onMount={handleEditorDidMount}
+                onChange={handleEditorContentChange}
+            />
         </EditorContainer>
     );
 }

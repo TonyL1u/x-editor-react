@@ -1,23 +1,27 @@
 import { useRef, useState } from 'react';
 
+import { useLatest } from '../../hooks';
 import { ComponentBaseProps } from '../../shared/types';
+import { ensureCssUnit } from '../../shared/utils';
 import { useInternalContext } from '../provider/context';
 import { ErrorPanel, LoadingCube, PreviewContainer, RunningButton } from './widgets';
 
 export interface PreviewProps extends ComponentBaseProps {
     code?: string;
-    width?: number;
-    height?: number;
+    width?: string | number;
+    height?: string | number;
+    borderless?: boolean;
 }
 
 export default function Preview(props: PreviewProps) {
-    const { code: previewCode = '', className, style } = props;
+    const { code: previewCode = '', className, style, width = 300, height, borderless = false } = props;
+    const previewCodeRef = useLatest(previewCode);
     const { code, runtimeError, editorInstance, runCode, onBeforeCreate, onCreated, onLoaded } = useInternalContext();
     const [loading, setLoading] = useState(true);
     const container = useRef<HTMLDivElement>(null);
 
     const handleRun = async () => {
-        await runCode(editorInstance?.current?.getValue() || previewCode || code);
+        await runCode(previewCodeRef.current || editorInstance?.current?.getValue() || code);
     };
 
     onBeforeCreate(sandbox => {
@@ -34,11 +38,11 @@ export default function Preview(props: PreviewProps) {
 
     onLoaded(async () => {
         setLoading(false);
-        await runCode(previewCode || editorInstance?.current?.getValue() || code);
+        await handleRun();
     });
 
     return (
-        <PreviewContainer ref={container} className={className} style={style}>
+        <PreviewContainer ref={container} className={className} style={style} $borderless={borderless} $width={ensureCssUnit(width || '', 'px')} $height={ensureCssUnit(height || '', 'px')}>
             {loading && <LoadingCube />}
             {runtimeError?.message && (
                 <ErrorPanel>

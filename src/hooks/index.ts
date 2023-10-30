@@ -1,3 +1,4 @@
+export * from './useClipboard';
 export * from './useEventHook';
 export * from './useExtraLib';
 export * from './useLatest';
@@ -6,3 +7,4 @@ export * from './useOnMounted';
 export * from './useOnUnmounted';
 export * from './useSandbox';
 export * from './useThrottleFn';
+export * from './useTimeoutFn';

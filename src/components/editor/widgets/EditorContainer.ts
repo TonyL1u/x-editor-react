@@ -1,6 +1,15 @@
 import styled from 'styled-components';
 
-export default styled.div`
+export default styled.div<{ $borderless?: boolean; $width?: string; $height?: string }>`
+    width: ${({ $width }) => $width};
+    height: ${({ $height }) => $height};
+    border: ${({ $borderless }) => ($borderless ? 'none' : '1px solid #f0f0f0')};
+
+    section {
+        box-sizing: border-box;
+        padding-right: 16px;
+    }
+
     .highlight-line {
         background: rgba(255, 251, 221);
         border-radius: 4px;

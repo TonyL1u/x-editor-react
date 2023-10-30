@@ -1,14 +1,17 @@
-import { useEffect, useRef, useState } from 'react';
+import { type ReactNode, useEffect, useRef, useState } from 'react';
 
 import { IconBan, IconTerminal } from '../../icons';
 import { ComponentBaseProps } from '../../shared/types';
 import { useInternalContext } from '../provider/context';
 import { ConsoleContainer, Header, LoggerItem, MessagePanel } from './widgets';
 
-interface ConsoleProps extends ComponentBaseProps {}
+export interface ConsoleProps extends ComponentBaseProps {
+    borderless?: boolean;
+    emptyText?: ReactNode;
+}
 
 export default function Console(props: ConsoleProps) {
-    const { className, style } = props;
+    const { className, style, borderless = false, emptyText = 'Nothing Output' } = props;
     const { runtimeLogs, clearLogs } = useInternalContext();
     const messagePanel = useRef<HTMLDivElement>(null);
     const [collapsed, setCollapsed] = useState(true);
@@ -20,7 +23,7 @@ export default function Console(props: ConsoleProps) {
     }, [runtimeLogs]);
 
     return (
-        <ConsoleContainer className={className} style={style}>
+        <ConsoleContainer className={className} style={style} $borderless={borderless}>
             <Header onClick={() => setCollapsed(c => !c)}>
                 <IconTerminal width={14} height={14} className="iconTerminal" />
                 Console
@@ -35,7 +38,7 @@ export default function Console(props: ConsoleProps) {
                             </LoggerItem>
                         ))
                     ) : (
-                        <div className="empty">Nothing Output</div>
+                        <div className="empty">{emptyText}</div>
                     )}
                 </MessagePanel>
             )}

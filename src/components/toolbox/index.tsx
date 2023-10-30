@@ -2,22 +2,24 @@ import type { MouseEvent, ReactNode } from 'react';
 
 import { IconCodeSlash, IconRefresh } from '../../icons';
 import { ComponentBaseProps } from '../../shared/types';
+import Copy from '../copy';
 import { useInternalContext } from '../provider/context';
 import { ToolboxContainer, ToolButton } from './widgets';
 
-interface ToolConfig {
+export interface ToolConfig {
     icon?: ReactNode;
     text?: ReactNode;
     onClick?: (e: MouseEvent) => void;
 }
 
-interface ToolboxProps extends ComponentBaseProps {
-    toolList?: ToolConfig[];
+export interface ToolboxProps extends ComponentBaseProps {
+    borderless?: boolean;
+    extraTools?: ToolConfig[];
 }
 
 export default function Toolbox(props: ToolboxProps) {
-    const { className, style, toolList = [] } = props;
-    const { format, reset } = useInternalContext();
+    const { className, style, borderless = false, extraTools = [] } = props;
+    const { code, format, reset } = useInternalContext();
     const tools: ToolConfig[] = [
         {
             icon: <IconCodeSlash height={14} width={14} />,
@@ -27,11 +29,14 @@ export default function Toolbox(props: ToolboxProps) {
             icon: <IconRefresh height={14} width={14} />,
             onClick: reset
         },
-        ...toolList
+        {
+            icon: <Copy content={code} />
+        },
+        ...extraTools
     ];
 
     return (
-        <ToolboxContainer className={className} style={style}>
+        <ToolboxContainer className={className} style={style} $borderless={borderless}>
             {tools.map(({ icon, text, onClick }, index) => {
                 return (
                     <ToolButton key={index} onClick={onClick}>
