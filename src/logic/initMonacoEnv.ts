@@ -3,6 +3,7 @@ import * as monaco from 'monaco-editor';
 import VitesseLight from 'theme-vitesse/themes/vitesse-light.json';
 
 import reactTypes from '../libs/react.d.ts?raw';
+import styledComponentsTypes from '../libs/styled-components.d.ts?raw';
 
 export function initMonacoEnv() {
     loader.config({ monaco });
@@ -40,6 +41,7 @@ export function initMonacoEnv() {
 
             // extra libs
             monaco.languages.typescript.typescriptDefaults.addExtraLib(`declare module 'react' {${reactTypes}}`, 'ts:react');
+            monaco.languages.typescript.typescriptDefaults.addExtraLib(`declare module 'styled-components' {${styledComponentsTypes}}`, 'ts:styled-components');
 
             // or make sure that it exists by other ways
             // eslint-disable-next-line no-console

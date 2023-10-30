@@ -68,7 +68,6 @@ export function useSandbox(config: SandboxConfig = {}): UseSandboxReturn {
         // create iframe
         sandbox.current = document.createElement('iframe');
         sandbox.current.setAttribute('sandbox', ['allow-forms', 'allow-modals', 'allow-pointer-lock', 'allow-popups', 'allow-same-origin', 'allow-scripts', 'allow-top-navigation-by-user-activation'].join(' '));
-        sandbox.current.setAttribute('style', 'flex: 1; overflow: auto; border-radius: 8px; border: none; background-color: #fff; box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);');
         sandbox.current.id = 'sandbox_iframe';
         sandbox.current.srcdoc = srcdoc.replace(
             /<!--IMPORT_MAP-->/,
@@ -76,6 +75,7 @@ export function useSandbox(config: SandboxConfig = {}): UseSandboxReturn {
                 imports: {
                     react: '../../proxy/react-dev-proxy.ts',
                     'react-dom/client': '../../proxy/react-dom_client-dev-proxy.ts',
+                    'styled-components': '../../proxy/styled-components-dev-proxy.ts',
                     ...imports
                 }
             })

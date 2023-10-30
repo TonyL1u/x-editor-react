@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from 'react';
 import { memo, useRef, useState } from 'react';
 
-import { useLatest, useOnMounted, useSandbox, useThrottleFn } from '../../hooks';
+import { useExtraLib, useLatest, useOnMounted, useSandbox, useThrottleFn } from '../../hooks';
 import { initMonacoEnv } from '../../logic/initMonacoEnv';
 import { parseSource } from '../../logic/parseSource';
 import type { MonacoStandaloneCodeEditor, RuntimeError, RuntimeLog, SandboxError } from '../../shared/types';
@@ -10,20 +10,26 @@ import srcdoc from './srcdoc.html?raw';
 
 initMonacoEnv();
 
+export interface LibImport {
+    name: string;
+    proxyPath: string;
+    types?: string;
+}
+
 export interface XEditorProviderProps {
-    imports?: Record<string, string>;
+    imports?: LibImport[];
     code?: string;
 }
 
 function EditorProvider(props: PropsWithChildren<XEditorProviderProps>) {
-    const { imports = {}, code = '', children } = props;
+    const { imports = [], code = '', children } = props;
     const codeRef = useLatest(code);
     const [runtimeError, setRuntimeError] = useState<RuntimeError>({ message: '', error: null });
     const [runtimeLogs, setRuntimeLogs] = useState<RuntimeLog[]>([]);
     const [compliedCode, setCompliedCode] = useState('');
     const editorInstance = useRef<MonacoStandaloneCodeEditor>(null);
     const { create, proxy, ...rest } = useSandbox({
-        imports,
+        imports: imports.reduce((acc, { name, proxyPath }) => ({ ...acc, [name]: proxyPath }), {}),
         srcdoc,
         onConsole(log) {
             if (log.level === 'error') {
@@ -86,6 +92,8 @@ function EditorProvider(props: PropsWithChildren<XEditorProviderProps>) {
         create();
         editorInstance.current?.revealPositionInCenter({ lineNumber: 1, column: 1 });
     };
+
+    useExtraLib(imports.filter(({ types }) => !!types).map(({ name, types }) => ({ name, types: types! })));
 
     useOnMounted(create);
 

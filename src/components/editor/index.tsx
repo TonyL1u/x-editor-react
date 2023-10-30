@@ -42,7 +42,7 @@ export interface EditorProps extends MonacoEditorProps, ComponentBaseProps {
 }
 
 function Editor(props: EditorProps) {
-    const { value = '', options = {}, defaultLanguage = 'typescript', path = 'file:///index.tsx', theme = 'vitesse-light', onMount, onChange, borderless = false, className, style, width, height, ...rest } = props;
+    const { value = '', options = {}, defaultLanguage = 'typescript', path = 'file:///index.tsx', theme = 'vitesse-light', onMount, onChange, borderless = false, className, style, width = 800, height = 400, ...rest } = props;
     const valueRef = useLatest(value);
     const { code, runCode, runtimeError, editorInstance } = useInternalContext();
     const errorDecorator = useRef<string[]>();
@@ -75,7 +75,7 @@ function Editor(props: EditorProps) {
     const handleEditorDidMount = (editor: MonacoStandaloneCodeEditor, monaco: Monaco) => {
         onMount?.(editor, monaco);
         // @ts-ignore
-        editorInstance.current = editor;
+        if (editorInstance) editorInstance.current = editor;
     };
 
     const handleEditorContentChange = (value: string = '', evt: monaco.editor.IModelContentChangedEvent) => {

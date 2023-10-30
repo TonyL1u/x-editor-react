@@ -3,18 +3,16 @@ import './App.css';
 import { useState } from 'react';
 import XEditor from 'x-editor-react';
 
-const initialCode = `
-import { useEffect } from 'react';
-
-export default () => {
-    return <div className="bg-red-300">Test Code</div>
-}
-`.trim();
+import main from './example/main?raw';
 
 function App() {
-    const [code, setCode] = useState(initialCode);
+    const [code, setCode] = useState(main);
 
-    return <XEditor code={code} onChange={v => v && setCode(v)} showPreview />;
+    return (
+        <>
+            <XEditor code={code} onChange={v => v && setCode(v)} width={1280} showPreview className="m-auto" />
+        </>
+    );
 }
 
 export default App;
