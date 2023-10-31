@@ -6,9 +6,8 @@ import SplitPanel from './components/split-panel';
 import { IconFullscreen } from './icons';
 import { ComponentBaseProps } from './shared/types';
 
-export interface XEditorProps extends ComponentBaseProps {
+export interface XEditorProps extends ComponentBaseProps, Omit<EditorProps, 'width' | 'height' | 'borderless' | 'style' | 'className'> {
     code?: string;
-    onChange?: EditorProps['onChange'];
     width?: number;
     height?: number;
     imports?: LibImport[];
@@ -19,7 +18,7 @@ export interface XEditorProps extends ComponentBaseProps {
 }
 
 export default function XEditor(props: XEditorProps) {
-    const { code, onChange, imports, className, style, width = 1000, height = 400, fullscreen = false, showConsole = false, showPreview = false, showToolbox = false } = props;
+    const { code, imports, className, style, width = 1000, height = 400, fullscreen = false, showConsole = false, showPreview = false, showToolbox = false, ...editorProps } = props;
     const [isFullscreen, setIsFullscreen] = useState(fullscreen);
     const mergedStyle = useMemo<CSSProperties>(() => {
         const common = { border: '1px solid #f0f0f0', ...style };
@@ -36,12 +35,12 @@ export default function XEditor(props: XEditorProps) {
     ];
 
     return (
-        <XEditorProvider code={code} imports={imports}>
+        <XEditorProvider initialCode={code} imports={imports}>
             <SplitPanel vertical className={className} style={mergedStyle}>
-                {showToolbox && <Toolbox borderless extraTools={tools} style={{ flexShrink: 0 }} />}
+                {showToolbox && <Toolbox borderless extraTools={tools} />}
                 <SplitPanel width={isFullscreen ? '100%' : width} height={height} style={{ flex: isFullscreen ? 1 : '' }}>
                     {showPreview && <Preview width="40%" borderless />}
-                    <Editor width="60%" height="100%" borderless onChange={onChange} style={{ flex: 1 }} />
+                    <Editor width="60%" height="100%" borderless style={{ flex: 1 }} {...editorProps} />
                 </SplitPanel>
                 {showConsole && <Console borderless />}
             </SplitPanel>

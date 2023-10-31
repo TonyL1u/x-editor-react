@@ -1,5 +1,3 @@
-'use client';
-
 import type { CSSProperties, MouseEvent, PropsWithChildren } from 'react';
 import { useRef } from 'react';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
@@ -88,7 +86,7 @@ export default function Copy(props: PropsWithChildren<CopyProps>) {
                         exitActive: `${key}_iconSwitchExitActive`
                     }}>
                     <div className={className} style={style} ref={nodeRef} onClick={handleCopy}>
-                        <Icon width={iconSize} height={iconSize} className="icon" />
+                        <Icon width={iconSize} height={iconSize} className="icon" style={{ marginTop: '2px' }} />
                     </div>
                 </CSSTransition>
             </SwitchTransition>

@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from 'react';
 import { memo, useRef, useState } from 'react';
 
-import { useExtraLib, useLatest, useOnMounted, useSandbox, useThrottleFn } from '../../hooks';
+import { useExtraLib, useOnMounted, useSandbox, useThrottleFn } from '../../hooks';
 import { initMonacoEnv } from '../../logic/initMonacoEnv';
 import { parseSource } from '../../logic/parseSource';
 import type { MonacoStandaloneCodeEditor, RuntimeError, RuntimeLog, SandboxError } from '../../shared/types';
@@ -18,12 +18,12 @@ export interface LibImport {
 
 export interface XEditorProviderProps {
     imports?: LibImport[];
-    code?: string;
+    initialCode?: string;
 }
 
 function EditorProvider(props: PropsWithChildren<XEditorProviderProps>) {
-    const { imports = [], code = '', children } = props;
-    const codeRef = useLatest(code);
+    const { initialCode = '', imports = [], children } = props;
+    const [code, setCode] = useState(initialCode);
     const [runtimeError, setRuntimeError] = useState<RuntimeError>({ message: '', error: null });
     const [runtimeLogs, setRuntimeLogs] = useState<RuntimeLog[]>([]);
     const [compliedCode, setCompliedCode] = useState('');
@@ -67,6 +67,7 @@ function EditorProvider(props: PropsWithChildren<XEditorProviderProps>) {
 
     const runCode = useThrottleFn(async (source: string) => {
         try {
+            setCode(source);
             setRuntimeError({ message: '', error: null });
             const result = parseSource(source);
             setCompliedCode(result);
@@ -100,7 +101,7 @@ function EditorProvider(props: PropsWithChildren<XEditorProviderProps>) {
     return (
         <Context.Provider
             value={{
-                code: codeRef.current,
+                code,
                 compliedCode,
                 runtimeError,
                 runtimeLogs,

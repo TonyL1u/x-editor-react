@@ -1,0 +1,50 @@
+.preview.preview {
+    min-width: 600px;
+    left: 50%;
+    transform: translate(-50%, 0px);
+    animation: outer 1s linear forwards;
+    animation-timeline: scroll();
+
+    iframe {
+        animation: inner 1s linear forwards;
+        animation-timeline: scroll();
+    }
+}
+
+.editor {
+    position: absolute;
+    pointer-events: none;
+    opacity: 0;
+    left: calc(50vw - 100px);
+    transform: translateY(0px);
+    animation: editor 1s linear forwards;
+    animation-timeline: scroll();
+}
+
+@keyframes outer {
+    to {
+        left: calc(50vw - 700px);
+        transform: translate(0px, 1500px);
+        padding: 24px;
+        background: rgb(246, 247, 249);
+        box-sizing: border-box;
+    }
+}
+
+@keyframes inner {
+    to {
+        border-radius: 8px;
+        background-color: #fff;
+        box-shadow:
+            0 1px 3px 0 rgb(0 0 0 / 0.1),
+            0 1px 2px -1px rgb(0 0 0 / 0.1);
+    }
+}
+
+@keyframes editor {
+    to {
+        opacity: 1;
+        pointer-events: all;
+        transform: translateY(1500px);
+    }
+}

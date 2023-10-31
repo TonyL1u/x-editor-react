@@ -4,6 +4,7 @@ export default styled.div<{ $borderless?: boolean; $width?: string; $height?: st
     width: ${({ $width }) => $width};
     height: ${({ $height }) => $height};
     border: ${({ $borderless }) => ($borderless ? 'none' : '1px solid #f0f0f0')};
+    box-sizing: border-box;
 
     section {
         box-sizing: border-box;

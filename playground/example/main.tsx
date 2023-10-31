@@ -29,7 +29,7 @@ const Title = styled.div`
 `;
 
 const TypingText = styled.span`
-    width: 385px;
+    width: 435px;
     white-space: nowrap;
     overflow: hidden;
     border-right: 2px solid;
@@ -45,7 +45,7 @@ export default function App() {
             <Title className="text-8xl tracking-wide">
                 <span className="mr-1 rounded bg-blue-400 px-4 py-1.5 text-white">X</span>Editor
             </Title>
-            <TypingText className="text-gray-400">An online code editor with live preview.</TypingText>
+            <TypingText className="text-gray-400">A monaco-based code editor with live preview.</TypingText>
         </div>
     );
 }

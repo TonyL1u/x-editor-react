@@ -78,7 +78,7 @@ function Editor(props: EditorProps) {
         if (editorInstance) editorInstance.current = editor;
     };
 
-    const handleEditorContentChange = (value: string = '', evt: monaco.editor.IModelContentChangedEvent) => {
+    const handleEditorContentChange = (value = '', evt: monaco.editor.IModelContentChangedEvent) => {
         onChange?.(value, evt);
         runCode(value)?.catch(() => {});
     };

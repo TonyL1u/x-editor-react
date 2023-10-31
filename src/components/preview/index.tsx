@@ -11,10 +11,13 @@ export interface PreviewProps extends ComponentBaseProps {
     width?: string | number;
     height?: string | number;
     borderless?: boolean;
+    styleless?: boolean;
+    showLoading?: boolean;
+    showRunning?: boolean;
 }
 
 export default function Preview(props: PreviewProps) {
-    const { code: previewCode = '', className, style, width = 300, height, borderless = false } = props;
+    const { code: previewCode = '', className, style, width = 300, height, borderless = false, styleless = false, showLoading = true, showRunning = true } = props;
     const previewCodeRef = useLatest(previewCode);
     const { code, runtimeError, editorInstance, runCode, onBeforeCreate, onCreated, onLoaded } = useInternalContext();
     const [loading, setLoading] = useState(true);
@@ -42,15 +45,15 @@ export default function Preview(props: PreviewProps) {
     });
 
     return (
-        <PreviewContainer ref={container} className={className} style={style} $borderless={borderless} $width={ensureCssUnit(width || '', 'px')} $height={ensureCssUnit(height || '', 'px')}>
-            {loading && <LoadingCube />}
+        <PreviewContainer ref={container} className={className} style={style} $borderless={borderless} $width={ensureCssUnit(width || '', 'px')} $height={ensureCssUnit(height || '', 'px')} $styleless={styleless}>
+            {showLoading && loading && <LoadingCube />}
             {runtimeError?.message && (
                 <ErrorPanel>
                     <span className="title">Error</span>
                     <div className="content">{String(runtimeError.message)}</div>
                 </ErrorPanel>
             )}
-            {!loading && <RunningButton width={16} height={16} onClick={handleRun} />}
+            {showRunning && !loading && <RunningButton width={16} height={16} onClick={handleRun} />}
         </PreviewContainer>
     );
 }
